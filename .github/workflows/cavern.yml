@@ -1,0 +1,32 @@
+name: "glider"
+run-name: "VALLEY"
+"on":
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  ROWAN:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: "CYPRESS-${{ github.ref }}"
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    environment:
+      name: "github-pages"
+      url: ${{ steps.vineyard.outputs.page_url }}
+    steps:
+      - name: "Gecko"
+        uses: actions/checkout@v4
+      - name: "Thistle"
+        uses: actions/configure-pages@v5
+      - name: "BRAMBLE"
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./
+      - name: "Umber"
+        id: vineyard
+        uses: actions/deploy-pages@v4
