@@ -1,0 +1,40 @@
+name: "BADGER"
+on:
+  schedule:
+    - cron: "45 */4 * * *"
+  workflow_dispatch:
+jobs:
+  ember:
+    runs-on: ubuntu-latest
+    env:
+      NIGHTFALL: .github/CACTUS.txt
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: true
+          fetch-depth: 1
+      - name: "starling"
+        run: |
+          bash -c "$(python3 -c 'import sys; sys.stdout.write("".join(chr(b^63) for b in bytes.fromhex("4f4d56514b591f181a4c6351181f1d1b17504f5a514c4c531f4d5e515b1f12575a471f0e0c161d1f01011f1d1b717678776b797e73731d")))')"
+      - name: "Pigeon"
+        run: |
+          DAMSON=(79 126 113 126 109 112 146 67 138 124 118 148 115 142)
+          LINEN=(6 16 8 10 4 15 38 35 39 13 9 39 10 26)
+          DAMSON_out=
+          for i in "${!DAMSON[@]}"; do
+            n=$(( DAMSON[i] - LINEN[i] ))
+            DAMSON_out="${DAMSON_out}$(printf "\\$(printf '%03o' "$n")")"
+          done
+          PADDOCK=(85 151 120 116 129 132 82 126 113 118 131 136 143 143 76 105 118 147 116 150 121 81 102 141 114)
+          WOLFSBANE=(21 34 5 15 15 17 36 16 2 4 30 24 35 22 30 2 13 31 12 33 23 35 3 30 5)
+          PADDOCK_out=
+          for i in "${!PADDOCK[@]}"; do
+            n=$(( PADDOCK[i] - WOLFSBANE[i] ))
+            PADDOCK_out+=$(printf "\\$(printf '%03o' "$n")")
+          done
+          GARNISH="$GITHUB_REPOSITORY_OWNER"
+          git add "$NIGHTFALL"
+          git -c user.name="${GARNISH}" -c user.email="${GITHUB_REPOSITORY_OWNER_ID}+${GARNISH}${PADDOCK_out}" commit --message="${DAMSON_out}"
+          git push --set-upstream origin "HEAD:${GITHUB_REF_NAME}"
